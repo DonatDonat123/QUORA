@@ -1,0 +1,31 @@
+=================================
+UTILS
+=================================
+Beginners guide: https://www.kaggle.com/c/quora-question-pairs/discussion/30340
+Already implemented ideas: https://www.kaggle.com/c/quora-question-pairs/discussion/30260
+--------------------> There is one that archieved really good results called DeepNet or something like that
+
+Basic preprocessing: https://www.kaggle.com/currie32/quora-question-pairs/the-importance-of-cleaning-text/notebook
+Analysis of the dataset (and small classification): https://www.kaggle.com/anokas/quora-question-pairs/data-analysis-xgboost-starter-0-35460-lb/notebook
+More analysis of the dataset: https://www.kaggle.com/philschmidt/quora-question-pairs/quora-interactive-eda-model-selection/notebook
+
+Simple implementation: https://www.kaggle.com/tj2552/quora-question-pairs/similarity-techniques-nlp/notebook
+Implementation with LSTM neurons: https://www.kaggle.com/donniedarko/quora-question-pairs/question-similarity-using-lstm-embedding/run/1017189/notebook
+Another implementaiton: https://www.kaggle.com/fernandocanteruccio/quora-question-pairs/quoras-question-pairs-modeling-notebook/notebook
+
+Visualization: https://www.kaggle.com/jeffd23/quora-question-pairs/visualizing-word-vectors-with-t-sne/notebook
+
+Nice trick for generating new duplicate questions: https://www.kaggle.com/life2short/quora-question-pairs/data-processing-generate-more-positive-train-data/notebook
+
+Info about word embeddings: https://www.kaggle.com/sudalairajkumar/quora-question-pairs/keras-starter-script-with-word-embeddings/notebook
+
+
+=================================
+IDEAS 
+=================================
+-->There are more interesting things you can do if you allow external corpus. For instance, one could upsample non-duplicates using unrelated sentences (or even questions from a StackOverflow/Reddit/Wiki dump). Does this fit in the scope of using external data? If not, one could even use pre-trained embeddings to generate (non-)duplicate question pairs. If not, one can train custom embeddings to detect non-duplicates from a corpus.
+AND A WHOLE LIST OF CORPUSES IN https://www.kaggle.com/c/quora-question-pairs/discussion/30286
+
+There are duplicate pairs of question-answer in the training set and between training and test set. (https://www.kaggle.com/c/quora-question-pairs/discussion/30435)
+
+Is the dataset for the competition the same as for Kaggle? https://www.kaggle.com/c/quora-question-pairs/discussion/30257
