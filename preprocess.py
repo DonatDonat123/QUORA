@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import re
 from sklearn.model_selection	import train_test_split
 from common						import saveObj, rprint
@@ -6,7 +7,8 @@ from common						import saveObj, rprint
 def question_to_words(question , stops): # cleans a question
 	words = re.sub("[^a-z]", " ", question.lower()).split();
 	meaningful_words = [w for w in words if not w in stops]
-	return( " ".join( meaningful_words ))
+	#return( " ".join( meaningful_words ))
+	return meaningful_words
 
 def clean_questions(questions, stops):
 	cleaned = [];
@@ -24,7 +26,7 @@ def prep_train100(stops):
 	train100_q1 = clean_questions(train_raw["question1"], stops)
 	print "Cleaning second questions                           "
 	train100_q2 = clean_questions(train_raw["question2"], stops)
-	train100_du = train_raw["is_duplicate"]
+	train100_du = np.array(list(train_raw["is_duplicate"]), dtype = np.bool)
 	
 	print "Saving 100%% train data                             "
 	train100 = (train100_q1, train100_q2, train100_du);
@@ -56,7 +58,7 @@ def prep_test(stops):
 	test_q1 = clean_questions(test_raw["question1"], stops)
 	print "Cleaning second questions                           "
 	test_q2 = clean_questions(test_raw["question2"], stops)
-	test_id = test_raw["test_id"]
+	test_id = np.array(list(test_raw["test_id"]), dtype = np.int)
 	
 	print "Saving test data                                    "
 	test = (test_q1, test_q2, test_id);
@@ -74,7 +76,7 @@ def main():
 	stops = prep_stops()
 	print stops
 	prep_train(stops)
-	#prep_test(stops)
+	prep_test(stops)
 
 if __name__ == "__main__":
 	main()
