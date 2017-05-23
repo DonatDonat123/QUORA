@@ -71,20 +71,20 @@ def main():
 	#ratio = duplicateRatio();
 	ratio = 0.368639;
 	
-	print "Loading test data"
-	test30 = loadObj("preprocessed/train30.bin")
-	result = calc_result(word2vec,test30, ratio);
-	
-	print "Calculating log loss"
-	from sklearn.metrics import log_loss
-	error = log_loss(test30[2], result);
-	print "Log loss = %f" % error
+	#print "Loading test 30 data"
+	#test30 = loadObj("preprocessed/train30.bin")
+	#result = calc_result(word2vec,test30, ratio);
+	#
+	#print "Calculating log loss"
+	#from sklearn.metrics import log_loss
+	#error = log_loss(test30[2], result);
+	#print "Log loss = %f" % error
 	
 	test = loadObj("preprocessed/test.bin");
 	result = calc_result(word2vec,test, ratio)
 	
 	from pandas import DataFrame
-	output = pd.DataFrame( data={"test_id":test[2], "is_duplicate":result} )
+	output = DataFrame( data={"test_id":test[2], "is_duplicate":result} )
 	output.to_csv("submit.csv", index = False, quoting = 3)
 	
 
