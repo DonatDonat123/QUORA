@@ -59,14 +59,16 @@ def prep_test(stops):
 	print "Cleaning second questions                           "
 	test_q2 = clean_questions(test_raw["question2"], stops)
 	test_id = np.array(list(test_raw["test_id"]), dtype = np.int)
+	del test_raw
 	
 	print "Saving test data                                    "
-	test = (test_q1, test_q2, test_id);
-	saveObj(test, "preprocessed/test.bin");	
+	test = (test_q1, test_q2, test_id)
+	del test_q1, test_q2, test_id
+	saveObj(test, "preprocessed/test.bin")
 
 def prep_stops():
 	print "Creating stopwords"
-	from nltk.corpus				import stopwords
+	from nltk.corpus import stopwords
 	orig_stops = set(stopwords.words("english"))
 	not_stops = set(["what", "how", "who"]) # add more if you like
 	stops = orig_stops - not_stops		# Set difference
@@ -75,7 +77,7 @@ def prep_stops():
 def main():
 	stops = prep_stops()
 	print stops
-	prep_train(stops)
+	#prep_train(stops)
 	prep_test(stops)
 
 if __name__ == "__main__":

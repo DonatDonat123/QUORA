@@ -5,12 +5,15 @@ wordvector_dimensionality = 300
 
 #avg is modified but not reassigned
 def question2Vec(question, avg, word2vec, index2word_set):
-	nwords = 0
+	#nwords = 0
+	sumw = 0;
 	for word in question:
 		if word in index2word_set:
-			nwords = nwords + 1
-			avg += word2vec[word]	# modifies array in-place
-	avg /= nwords+0.01				# this too
+			#nwords = nwords + 1		# have to implement:
+			weight = word_dict[word];
+			sumw += weight
+			avg += word2vec[word] / weight;	# modifies array in-place
+	avg /= sumw+0.01				# this too
 	
 def convertQuestions2Mat(questions, word2vec, index2word_set):
 	N, i = len(questions), 0
@@ -65,7 +68,6 @@ def main():
 	
 	convertFile2VecFile("preprocessed/train30.bin", "word2vec/train30.bin", \
 						word2vec, index2word_set)
-	
 	convertFile2VecFile("preprocessed/train70.bin", "word2vec/train70.bin", \
 						word2vec, index2word_set)
 	convertFile2VecFile("preprocessed/train100.bin", "word2vec/train100.bin", \
