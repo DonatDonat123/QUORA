@@ -23,16 +23,36 @@ def main():
 	
 	wn = 0
 	
-	print "Loading preprocessed/train30.bin"
+	print "Loading preprocessed/train30.bin        "
 	data = loadObj('preprocessed/train30.bin')
 	print "  First questions                       "
 	wn = wn + addfreqs(data[0])
 	print "  Second questions                      "
 	wn = wn + addfreqs(data[1])
+	del data
 	
-	print dictionary
+	print "Loading preprocessed/train70.bin        "
+	data = loadObj('preprocessed/train70.bin')
+	print "  First questions                       "
+	wn = wn + addfreqs(data[0])
+	print "  Second questions                      "
+	wn = wn + addfreqs(data[1])
+	del data
 	
-	print "Done"					
+	print "Loading preprocessed/test.bin           "
+	data = loadObj('preprocessed/test.bin')
+	print "  First questions                       "
+	wn = wn + addfreqs(data[0])
+	print "  Second questions                      "
+	wn = wn + addfreqs(data[1])
+	del data
+	
+	for key in dictionary:
+		print key, dictionary[key]
+	
+	saveObj(dictionary, 'frequencies_dictionary.bin');
+	
+	print "Done                                    "					
 	
 if __name__ == "__main__":
 	main()
