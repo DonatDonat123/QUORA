@@ -52,12 +52,12 @@ def get_similarities(q0, q1, matrix, dictNums, dictWords):
 
 	
 def make_submission(sim, diff, ids):
-    sub = pd.DataFrame(data={"test_id":ids,"similariy":sim, "difference":diff})
+    sub = pd.DataFrame(data={"test_id":ids,"similarity":sim, "difference":diff})
     sub.to_csv('sub.csv', columns=['test_id', 'similarity', "difference"], index=False)
 
 def main():
-	print "Loading preprocessed/train100.bin        "
-	data = loadObj('preprocessed/train100.bin')
+	print "Loading preprocessed/test.bin        "
+	data = loadObj('preprocessed/test.bin')
 	print "Data loaded"
 	print len(data[2])
 	
@@ -79,11 +79,13 @@ def main():
 
 	print "Computing similarities"
 	sim, diff = get_similarities(data[0], data[1], matrix, dictNums, dictWords)
+	print sim
 	print "Done"
 	
+	ids = range(0, len(data[0]))
 	print len(sim)
 	print "Making submission"
-	make_submission(sim, diff, data[2])
+	make_submission(sim, diff, ids)
 	print "Done"
 	
 if __name__ == "__main__":
