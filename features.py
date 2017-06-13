@@ -11,10 +11,7 @@ from numpy.linalg import norm
 # Generates features for training and test set.
 # Includes simple text features, as well as question embedding features.
 
-
-def get_weight(count, eps=10000, min_count=2):
-    return 0 if count < min_count else 1 / (count + eps)
-
+divide_epsilon = 0.001;
 
 def main():
 	df_train = pd.read_csv('data/train.csv')
@@ -52,17 +49,17 @@ def main():
 	    q2_weights = [weights.get(w, 0) for w in q2words]
 	    total_weights = q1_weights + q1_weights
 	    
-	    R1 = np.sum(shared_weights) / np.sum(total_weights) # tfidf share
-	    R2 = len(shared_words) / (len(q1words) + len(q2words) - len(shared_words)) # count share
-	    R31 = len(q1stops) / len(q1words) # stops in q1
-	    R32 = len(q2stops) / len(q2words) # stops in q2
+	    R1 = np.sum(shared_weights) / (np.sum(total_weights) + divide_epsilon) # tfidf share
+	    R2 = len(shared_words) / (len(q1words) + len(q2words) - len(shared_words) + divide_epsilon) # count share
+	    R31 = len(q1stops) / (len(q1words) + divide_epsilon) # stops in q1
+	    R32 = len(q2stops) / (len(q2words) + divide_epsilon) # stops in q2
 	    Rcosine_denominator = (np.sqrt(np.dot(q1_weights,q1_weights)) * np.sqrt(np.dot(q2_weights,q2_weights)))
-	    Rcosine = np.dot(shared_weights, shared_weights) / Rcosine_denominator
+	    Rcosine = np.dot(shared_weights, shared_weights) / (Rcosine_denominator + divide_epsilon)
 	    
 	    if len(q1_2gram) + len(q2_2gram) == 0:
 	        R2gram = 0
 	    else:
-	        R2gram = len(shared_2gram) / (len(q1_2gram) + len(q2_2gram))
+	        R2gram = len(shared_2gram) / (len(q1_2gram) + len(q2_2gram) + divide_epsilon)
 	   
 	    # tf-idf : count : q1stops : q2stops : bigrams : cosine : hamming
 	    return '{}:{}:{}:{}:{}:{}:{}:{}'.format(R1, R2, len(shared_words), R31, R32, R2gram, Rcosine, words_hamming)
@@ -70,6 +67,10 @@ def main():
 	train_qs = pd.Series(df_train['question1'].tolist() + df_train['question2'].tolist()).astype(str)
 	words = (" ".join(train_qs)).lower().split()
 	counts = Counter(words)
+	
+	def get_weight(count, eps=10000, min_count=2):
+		return 0 if count < min_count else 1 / (count + eps)
+	
 	weights = {word: get_weight(count) for word, count in counts.items()}
 	print "Done with counts and weights"
 
