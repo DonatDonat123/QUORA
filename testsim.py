@@ -51,15 +51,18 @@ def get_similarities(q0, q1, matrix, dictNums, dictWords):
 	return similarities, differences
 
 	
-def make_submission(sim, diff, ids):
-    sub = pd.DataFrame(data={"test_id":ids,"similariy":sim, "difference":diff})
-    sub.to_csv('sub.csv', columns=['test_id', 'similarity', "difference"], index=False)
+def make_submission(sim, diff, last_column, last_column_name, filename):
+    sub = pd.DataFrame(data={"similarity":sim, "difference":diff, last_column_name:last_column})
+    sub.to_csv(filename, columns=['similarity', "difference", last_column_name], index=False)
 
 def main():
 	print "Loading preprocessed/train100.bin        "
-	data = loadObj('preprocessed/train100.bin')
-	print "Data loaded"
-	print len(data[2])
+	traindata = loadObj('preprocessed/train100.bin')
+	print "Train data loaded"
+	
+	print "Loading preprocessed/test.bin        "
+	testdata = loadObj('preprocessed/test.bin')
+	print "Test data loaded"
 	
 	print "Loading similarity matrices"
 	simMatrix1 = load_sparse_lil('similarityMatrix1.npz')
@@ -77,14 +80,22 @@ def main():
 	dictNums = loadObj('dictNums.bin')
 	print "Dictionaries loaded"
 
-	print "Computing similarities"
-	sim, diff = get_similarities(data[0], data[1], matrix, dictNums, dictWords)
+	print "Computing similarities from train data"
+	sim, diff = get_similarities(traindata[0], traindata[1], matrix, dictNums, dictWords)
 	print "Done"
 	
-	print len(sim)
-	print "Making submission"
-	make_submission(sim, diff, data[2])
+	print "Write data to file from train data"
+	make_submission(sim, diff, traindata[2], "is_duplicate", "trainsubmission.csv")
 	print "Done"
+	
+	print "Computing similarities from test data"
+	sim, diff = get_similarities(testdata[0], testdata[1], "test_id", matrix, dictNums, dictWords)
+	print "Done"
+	
+	print "Write data to file from test data"
+	make_submission(sim, diff, testdata[2], "testsubmission.csv")
+	print "Done"
+	
 	
 if __name__ == "__main__":
     main()
