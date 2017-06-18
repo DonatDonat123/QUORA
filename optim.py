@@ -2,7 +2,7 @@ import sys
 sys.path.append("./")
 from bayes_opt import BayesianOptimization
 
-ranges = {	'rounds':[10, 3000], 'eta':[0.01,0.2], 'p' = [0.05,0.4]
+ranges = {	'rounds':[10, 3000], 'eta':[0.01,0.3], 'p' = [0.05,0.4]
 			'alpha': [0.1, 4], 'beta': [0.2, 8], 'mult': [0.4,1.2]}
 
 values0 = {	'ROUNDS':250, 'eta':0.05,'p' = 0.165
