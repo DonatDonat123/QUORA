@@ -55,6 +55,18 @@ def main():
 	x_test = x_test.join(panni_test);
 	del panni_test, panni_train
 	
+	rprint('Reading NN train Features')
+	dennis_train = pd.read_csv('nn_features_train.csv')
+	rprint('Reading NN test Features')
+	dennis_test = pd.read_csv('nn_features_test.csv')
+	rprint('Processing NN Features')
+	# del dennis_test['test_id']
+	# del dennis_train['is_duplicate']
+	x_train = x_train.join(dennis_train);
+	x_test = x_test.join(dennis_test);
+	del dennis_test, dennis_train
+	
+	
 	if 0: # Now we oversample the negative class - on your own risk of overfitting!
 		pos_train = x_train[y_train == 1]
 		neg_train = x_train[y_train == 0]
